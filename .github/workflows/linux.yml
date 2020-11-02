@@ -1,4 +1,4 @@
-name: geph4-client-linux-amd64
+name: linux
 
 on:
   push:
