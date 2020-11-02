@@ -16,8 +16,8 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-    - name: Clone
-      run: git clone https://github.com/geph-official/geph4 && cd $_
+    - name: Make dir
+      run: mkdir ~/repo && cd ~/repo && git clone https://github.com/geph-official/geph4 && cd $_
     - name: Compile -> geph4-client-linux-amd64
       run: cargo build --release --manifest-path=geph4-client/Cargo.toml
     - name: Rename -> geph4-client-linux-amd64
