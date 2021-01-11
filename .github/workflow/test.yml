@@ -1,0 +1,28 @@
+name: geph4-client-macos-amd64
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+env:
+  CARGO_TERM_COLOR: always
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Clone
+      run: git clone https://github.com/geph-official/geph4 -b sosistab-deactor && cd geph4
+    - name: 1to16
+      run: cat lib/sosistab/src/client.rs && sed -i "s#u8 = 1#u8 = 16#g" lib/sosistab/src/client.rs && cat lib/sosistab/src/client.rs
+    - name: Cross compiling -> geph4-client-macos-amd64
+      run: sh osx_build.sh
+    - name: Rename -> geph4-client-macos-amd64
+      run: mv target/x86_64-apple-darwin/release/geph4-client target/x86_64-apple-darwin/release/geph4-client-macos-amd64
+    - name: Upload to telegram -> geph4-client-macos-amd64
+      run: curl "https://api.telegram.org/bot${{ secrets.TOKEN }}/sendDocument?chat_id=${{ secrets.CHAT_ID }}" -F "document=@target/x86_64-apple-darwin/release/geph4-client-macos-amd64" >/dev/null
