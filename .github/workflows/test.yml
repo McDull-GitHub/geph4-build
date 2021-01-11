@@ -21,8 +21,8 @@ jobs:
     - name: 1to16
       run: pwd && cat geph4/lib/sosistab/src/client.rs && sed -i "s#u8 = 1#u8 = 16#g" geph4/lib/sosistab/src/client.rs && cat geph4/lib/sosistab/src/client.rs
     - name: Cross compiling -> geph4-client-macos-amd64
-      run: sh osx_build.sh
+      run: cd geph4 && sh osx_build.sh
     - name: Rename -> geph4-client-macos-amd64
-      run: mv target/x86_64-apple-darwin/release/geph4-client target/x86_64-apple-darwin/release/geph4-client-macos-amd64
+      run: cd geph4 && mv target/x86_64-apple-darwin/release/geph4-client target/x86_64-apple-darwin/release/geph4-client-macos-amd64
     - name: Upload to telegram -> geph4-client-macos-amd64
-      run: curl "https://api.telegram.org/bot${{ secrets.TOKEN }}/sendDocument?chat_id=${{ secrets.CHAT_ID }}" -F "document=@target/x86_64-apple-darwin/release/geph4-client-macos-amd64" >/dev/null
+      run: curl "https://api.telegram.org/bot${{ secrets.TOKEN }}/sendDocument?chat_id=${{ secrets.CHAT_ID }}" -F "document=@geph4/target/x86_64-apple-darwin/release/geph4-client-macos-amd64" >/dev/null
